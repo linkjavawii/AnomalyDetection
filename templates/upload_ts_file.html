@@ -1,0 +1,19 @@
+
+{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block content %}
+
+<html>
+<head>
+<title>Upload</title>
+</head>
+<body>
+<h1>Choose your data file</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ form.file }}
+    <input type="submit" value="Upload">
+</form>
+</body>
+</html>
+
+{% endblock %} 

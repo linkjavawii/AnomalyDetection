@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Outlier Detection in Multidimensional Data </title>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+
+    .button {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      border-radius: 4px;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .button1 {
+      background-color: white;
+      color: black;
+      border: 2px solid #e7e7e7;
+    }
+
+    .button1:hover {background-color: #e7e7e7;}
+
+    .questionBox1{
+      position:relative;
+    }
+    .questionBox1 span.glyphicon{
+        position: absolute;
+        right: 60px;
+        top: 0px;
+    }
+
+    .questionBox2{
+      position:relative;
+    }
+    .questionBox2 span.glyphicon{
+        position: absolute;
+        right: 40px;
+        top: 10px;
+    }
+
+    .questionBox3{
+      position:relative;
+    }
+    .questionBox3 span.glyphicon{
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+
+    .questionBox4{
+      position:relative;
+    }
+    .questionBox4 span.glyphicon{
+        position: absolute;
+        right: 10px;
+        top: 0px;
+    }
+
+    .questionBox5{
+      position:relative;
+    }
+    .questionBox5 span.glyphicon{
+        position: absolute;
+        right: 40px;
+        top: 0px;
+    }
+
+    .infoBox1{
+      position:relative;
+    }
+    .infoBox1 span.glyphicon{
+        position: absolute;
+        right: 40px;
+        top: 10px;
+    }
+
+    .infoBox2 span.glyphicon{
+        position: absolute;
+        right: 22px;
+        top: 13px;
+    }
+
+    .infoBox3 span.glyphicon{
+        position: absolute;
+        right: 30px;
+        top: 0px;
+    }
+
+    .infoBox4 span.glyphicon{
+        position: absolute;
+        right: 20px;
+        top: 0px;
+    }
+
+    .infoBox5 span.glyphicon{
+        position: absolute;
+        right: 90px;
+        top: 0px;
+    }
+
+    .infoBox6 span.glyphicon{
+        position: absolute;
+        right: 20px;
+        top: 430px;
+    }
+
+    .popover-title {
+        font-size: 14px;
+        text-align:center;
+    }
+
+    .popover-content {
+        font-size: 12px;
+        text-align:center;
+    }
+    .popover{
+        max-width:600px;
+    }
+
+    </style>
+
+</head>
+<body>
+
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<form method="post" role="form">
+    <div class="container">
+        <h3>Outlier Detection in Multidimensional Data</h3>
+        <hr>
+                               
+        <div class="row">
+            <div class="col-md-2 questionBox4">
+                {{ wtf.form_field(form.numberOfNeighbors) }}
+                <span style="font-size:1.2em;" class="glyphicon glyphicon-info-sign" data-toggle="popover" data-placement="right" data-content="Number of neighbors used in KNN and Local Outlier Factor. Only for KNN and Local Outlier Factor models" data-trigger="hover">
+                </span>
+            </div>
+            <div class="col-md-2 questionBox4">
+                {{ wtf.form_field(form.numberOfTrees) }}
+            <span style="font-size:1.2em;" class="glyphicon glyphicon-info-sign" data-toggle="popover" data-placement="right" data-content="Number of isolation trees used in Isolation Forest. Only for Isolation Forest model." data-trigger="hover">
+            </span>
+                    
+            </div> 
+        </div>            
+
+                    
+        <div class="row">
+            <div class="form-group col-md-2">
+                {{ wtf.form_field(form.firstOutliers) }}
+            </div>
+            
+            <div class="col-md-2 questionBox4">
+                {{ wtf.form_field(form.epochs) }}
+                    
+            <span style="font-size:1.2em;" class="glyphicon glyphicon-info-sign" data-toggle="popover" data-placement="right" data-content="Only for Neural Auto Encoder model." data-trigger="hover">
+            </span>
+                    
+            </div> 
+                    
+                     
+        </div>
+                                     
+    <div class="row">
+            <h5><b>Models</b></h5>
+        <div class="row">
+            <div class="form-group col-md-2" style="display:block">
+                {{ wtf.form_field(form.knn) }}
+            </div>
+            <div class="form-group col-md-2" style="display:block">
+                {{ wtf.form_field(form.LOF) }}
+            </div>        
+        </div>    
+        
+        <div class="row">
+            <div class="form-group col-md-2" style="display:block">
+                {{ wtf.form_field(form.pca) }}
+            </div>
+            <div class="form-group col-md-2" style="display:block">
+                {{ wtf.form_field(form.AE) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2" style="display:block">
+                {{ wtf.form_field(form.IF) }}
+            </div>
+        </div>
+                    
+    </div>
+                    
+        
+                   
+        
+        <div class="form-group col-md-2" style="position:relative; top:20px;">
+                <button type="button" class="button button1" onclick="feature_display()">Numerical features</button>
+        </div>            
+            
+                    
+        <div id="feature_section" class="row" style="display: block;">
+            <div class="form-group col-md-3">
+                <h5><b>Numerical features</b></h5>
+                {% for field, val in form.data.items() %}
+                <div>
+                    {% if field in num_features %}
+                    {{ form[field] }} {{field}}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        
+                    
+        <div class="form-group col-md-2" style="position:relative; top:20px;">
+                <button type="button" class="button button1" onclick="feature_cat_display()">Categorical features</button>
+        </div>            
+            
+                    
+        <div id="feature_section_cat" class="row" style="display: block;">
+            <div class="form-group col-md-3">
+                <h5><b>Categorical features</b></h5>
+                {% for field, val in form.data.items() %}
+                <div>
+                    {% if field in cat_features %}
+                    {{ form[field] }} {{field}}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+                    
+                    
+
+                        
+        
+        <div id="submit" class="row">
+            <div class="form-group col-md-1">
+                {{ wtf.form_field(form.training)}}
+            </div>
+        </div>
+    
+        
+                    
+        
+        <hr>
+    </div>
+</form>
+
+<hr>
+                    
+{% if result != None %}
+{% for table in tables %}
+            
+            {{ table|safe }}
+{% endfor %}                    
+{% endif %}                    
+                    
+                    
+                    
+{% endblock %}
+</body>
+
+{% block scripts %}
+{{ super() }}
+
+
+
+<script type="text/javascript">
+
+function option_display(){
+    var opt_section = document.getElementById('option_section')
+    if (opt_section.style.display == "none"){
+        opt_section.style.display = "block";
+    } else if (opt_section.style.display == "block"){
+        opt_section.style.display = "none";
+    }
+}
+
+function feature_display(){
+    var feat_section = document.getElementById('feature_section')
+    if (feat_section.style.display == "none"){
+        feat_section.style.display = "block";
+    } else if (feat_section.style.display == "block"){
+        feat_section.style.display = "none";
+    }
+}
+
+function feature_cat_display(){
+    var feat_section = document.getElementById('feature_section_cat')
+    if (feat_section.style.display == "none"){
+        feat_section.style.display = "block";
+    } else if (feat_section.style.display == "block"){
+        feat_section.style.display = "none";
+    }
+}
+
+                    
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
+
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+
+</script>
+  
+                    
+
+
+{% endblock %}
+
+</html>
