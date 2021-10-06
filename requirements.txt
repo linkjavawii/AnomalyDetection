@@ -1,9 +1,3 @@
-os
-time
-pywt
-uuid
-itertools
-math
 plotly==4.8.1
 numpy==1.18.2
 pandas==1.0.3
