@@ -9,4 +9,4 @@ COPY ./modelDetection2.py /webapp/modelDetection2.py
 WORKDIR /webapp
 RUN pip install -r requirements.txt
 ENTRYPOINT [ "python" ]
-CMD [ "Api_outliers2.py" ] 
+CMD [ "Api_outliers2.py", "--host", "0.0.0.0" ]
